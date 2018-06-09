@@ -1,4 +1,4 @@
-package com.hackerrank.datastructures.balancedbrackets;
+package datastructures.balancedbrackets;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,8 +6,13 @@ import java.util.*;
 
 public class Solution {
 
-    private static Set<Character> openingCharacters = new HashSet<>(Arrays.asList('{', '(', '['));
-    private static Set<Character> closingCharacters = new HashSet<>(Arrays.asList('}', ')', ']'));
+    private static Map<Character, Character> matchingCharacters = new HashMap<>();
+
+    static {
+        matchingCharacters.put('{', '}');
+        matchingCharacters.put('[', ']');
+        matchingCharacters.put('(', ')');
+    }
 
     private static boolean isBalanced(String s) {
         // Quick exit if the string is null or empty
@@ -15,24 +20,25 @@ public class Solution {
             return true;
         }
         // Stack of previous brackets
-        Stack<Character> stack = new Stack<Character>();
+        Stack<Character> stack = new Stack<>();
 
         // Iterate through the String characters
-        for (char c : s.toCharArray()) {
+        for (char currentCharacter : s.toCharArray()) {
             // case of an opening character, add to stack last element
-            if (openingCharacters.contains(c)) {
-                stack.push(c);
+            if (matchingCharacters.containsKey(currentCharacter)) {
+                stack.push(currentCharacter);
+                continue;
             }
 
             // case of a closing character
-            if (closingCharacters.contains(c)) {
+            if (matchingCharacters.values().contains(currentCharacter)) {
                 // if the stack is empty and characters are still left
                 if (stack.empty()) {
                     return false;
                 }
                 // Get the last character of the stack
                 char openChar = stack.pop();
-                if (!matches(openChar, c)) {
+                if (!charactersMatch(openChar, currentCharacter)) {
                     return false;
                 }
             }
@@ -41,23 +47,19 @@ public class Solution {
         return stack.empty();
     }
 
-    private static boolean matches(char c1, char c2) {
-        if (c1 == '(' && c2 == ')')
-            return true;
-        else if (c1 == '{' && c2 == '}')
-            return true;
-        else if (c1 == '[' && c2 == ']')
-            return true;
-        else
+    private static boolean charactersMatch(char c1, char c2) {
+        if (! matchingCharacters.containsKey(c1) ){
             return false;
+        }
+        return matchingCharacters.get(c1) == c2;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         String currentDir = System.getProperty("user.dir");
-        File inFile = new File(currentDir + "\\src\\com\\hackerrank\\datastructures\\balancedbrackets\\testcase03in.txt");
-        File outFile = new File(currentDir + "\\src\\com\\hackerrank\\datastructures\\balancedbrackets\\testcase03out.txt");
-        Scanner in = new Scanner(inFile);
-        Scanner out = new Scanner(outFile);
+        File inFilePath = new File(currentDir + "/src/datastructures/balancedbrackets/testcase03in.txt");
+        File outFilePath = new File(currentDir + "/src/datastructures/balancedbrackets/testcase03out.txt");
+        Scanner in = new Scanner(inFilePath);
+        Scanner out = new Scanner(outFilePath);
         int t = in.nextInt();
         for(int a0 = 0; a0 < t; a0++){
             String s = in.next();
