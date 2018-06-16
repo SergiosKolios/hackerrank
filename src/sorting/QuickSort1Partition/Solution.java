@@ -1,4 +1,4 @@
-package com.hackerrank.sorting.QuickSort1Partition;
+package sorting.QuickSort1Partition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +34,5 @@ public class Solution {
         for (int i = 0; i < result.length; i++) {
             System.out.print(result[i] + (i != result.length - 1 ? " " : ""));
         }
-        System.out.println("");
     }
 }
