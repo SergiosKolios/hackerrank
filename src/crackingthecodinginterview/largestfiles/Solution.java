@@ -42,12 +42,4 @@ public class Solution {
 
     }
 
-    static class SortBySizeDesc implements Comparator<File> {
-        // Used for sorting in descending order of
-        // roll name
-        public int compare(File a, File b) {
-            return new Long(b.length()).compareTo(a.length());
-        }
-    }
-
 }
